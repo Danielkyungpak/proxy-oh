@@ -14,9 +14,7 @@
             console.log("hello")
         };
 
-        $scope.matches = [
-            "1", "2", "3"
-        ]
+        vm.matches = [{id: 1, name: "daniel"}, {id:2, name: "jeffrey"}]
 
     }
 
