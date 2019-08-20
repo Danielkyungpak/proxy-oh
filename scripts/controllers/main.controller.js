@@ -12,7 +12,6 @@
 
         vm.addCardToQueue = _addCardToQueue;
         vm.removeCard = _removeCard;
-        vm.startsWith = _startsWith;
 
         initialize();
 
@@ -22,6 +21,9 @@
 
         function _onGetCardsSuccess(data) {
             vm.cards = data;
+            vm.queue = vm.cards.slice(0,100);
+
+            
             console.log(data)
         }
         function _addCardToQueue(item, model, label) {
@@ -29,18 +31,13 @@
                 vm.queue.push(item);
             }
             vm.value = "";
-            console.log(vm.queue)
+
         }
 
         function _removeCard(item) {
             var index = vm.queue.indexOf(item);
             vm.queue.splice(index, 1);
         }
-
-        function _startsWith(card, viewValue) {
-            return card.substr(0, viewValue.length).toLowerCase() == viewValue.toLowerCase();
-        }
-
 
     }
 

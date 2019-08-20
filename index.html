@@ -11,51 +11,50 @@
 <body ng-controller="MainController as mc" ng-cloak>
 
     <div class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a href="" class="navbar-brand">Proxy-Oh</a>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="container">
+        <div class="container-fluid" style="padding-left:100px; padding-right:100px;">
 
             <div class="page-header" id="banner" style="margin-top:80px;">
 
                 <div class="col-md-12">
                     <h1>Search for a card...</h1>
                     <input type="text" ng-model="mc.value"
-                        uib-typeahead="card.name for card in mc.cards | filter:{'name': $viewValue}:mc.startsWith | limitTo:8"
-                        class="form-control" typeahead-on-select="mc.addCardToQueue($item, $model, $label)" >
+                        uib-typeahead="card.name for card in mc.cards | filter:{'name': $viewValue} | limitTo:8"
+                        class="form-control" typeahead-on-select="mc.addCardToQueue($item, $model, $label)">
 
                 </div>
 
             </div>
-        </div>
 
-        <hr>
-        <div class="row">
-            <div class="container">
+            <hr>
+            <div masonry masonry-options="{ transitionDuration: '.3s'}" load-images="true">
+                <div class="masonry-brick col-md-2"
+                    ng-class="{'col-md-2' ? mc.rowAmount == 6 : 'col-md-3' ? mc.rowAmount == 4 }"
+                    ng-repeat="card in mc.queue">
+                    <div class="topright"><button type="button" class="btn btn-danger btn-sm"
+                            ng-click="mc.removeCard(card)">x</button></div>
+                    <h4>Name: {{card.name}}</h4>
+                    <div class="input-group">
+                        <!-- <span class="input-group-addon">Count</span>
+                    <input type="text" class="form-control" ng-model="card.quantity" ng-init="card.quantity = 1" /> -->
 
-                <div class="col-md-12">
-                    <div ng-repeat="card in mc.queue">
-                        <div class="col-md-6">
-                            <div class="topright"><button type="button" class="btn btn-danger btn-sm" ng-click="mc.removeCard(card)">x</button></div>
-                            <h4>Name: {{card.name}}</h4>
-                            
-                            <div class="input-group">
-                                <span class="input-group-addon">Count</span>
-                                <input type="text" class="form-control" ng-model="card.quantity"
-                                    ng-init="card.quantity = 1" />
-
-                            </div>
-
-                            <div style="border: 1px solid black; width: 300px; height: 400px; " >
-                            <img ng-src="{{card.card_images[0].image_url}}">
-                            </div>
+                        <div class="btn-group pull-right">
+                            <button class="btn btn-info active" ng-click="card.quantity = 1">1</button>
+                            <button class="btn btn-info" ng-click="card.quantity = 2">2</button>
+                            <button class="btn btn-info" ng-click="card.quantity = 3">3</button>
                         </div>
+
                     </div>
 
+                    <div class="card-img-container">
+                        <img ng-src="{{card.card_images[0].image_url}}">
+                    </div>
                 </div>
             </div>
         </div>
@@ -68,9 +67,22 @@
 
 </html>
 
+<script src="scripts/jquery-3.2.1.js"></script>
+
 <script src="scripts/angular.js"></script>
+<script src="node_modules/angular-masonry/angular-masonry.js"></script>
 <script src="scripts/angular-ui/ui-bootstrap.js"></script>
 <script src="scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
 <script src="scripts/ng-app/ng-app.js"></script>
 <script src="scripts/controllers/main.controller.js"></script>
 <script src="scripts/ng-app/services/yugioh-card-services.js"></script>
+
+<script src="node_modules/jquery-bridget/jquery-bridget.js"></script>
+<script src="node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="node_modules/desandro-matches-selector/matches-selector.js"></script>
+<script src="node_modules/fizzy-ui-utils/utils.js"></script>
+<script src="node_modules/get-size/get-size.js"></script>
+<script src="node_modules/outlayer/item.js"></script>
+<script src="node_modules/outlayer/outlayer.js"></script>
+<script src="node_modules/imagesloaded/imagesloaded.js"></script>
+<script src="node_modules/masonry-layout/masonry.js"></script>

@@ -9,3 +9,19 @@
     right: 16px;
     font-size: 18px;
   }
+
+
+.card-img-container {
+    width: 100%;
+ }
+ 
+ .card-img-container img {
+    width: 100%;
+    object-fit: contain;
+ }
+
+
+ 
+
+
+ 
