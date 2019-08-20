@@ -5,14 +5,23 @@
     .module('ProxyOh')
     .factory('ApiService', ApiService);
 
-  ApiService.$inject = [];
+  ApiService.$inject = [
+    '$http',
+  ];
 
   return {
     getById: getById
   };
 
   function getById(id) {
-    return;
+    return $http
+      .get('YugiohDB.json')
+      .then(r => {
+        return r.data;
+      })
+      .catch(e => {
+        return e;
+      });
   }
 
 })();
