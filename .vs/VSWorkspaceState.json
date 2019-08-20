@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
+    "\\scripts",
+    "\\scripts\\ng-app",
     "\\scripts\\ng-app\\services"
   ],
-  "SelectedNode": "\\index.html",
+  "SelectedNode": "\\scripts\\ng-app\\services\\yugioh-db-api-service.js",
   "PreviewInSolutionExplorer": false
 }
