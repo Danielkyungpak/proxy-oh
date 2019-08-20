@@ -9,19 +9,25 @@
     '$http',
   ];
 
-  return {
-    getById: getById
-  };
+  function ApiService($http) {
 
-  function getById(id) {
-    return $http
-      .get('YugiohDB.json')
-      .then(r => {
-        return r.data;
-      })
-      .catch(e => {
-        return e;
-      });
-  }
+    return {
+      get: get,
+    };
+
+    function get() {
+      console.log("in get")
+      return $http
+        .get('YugiohDB.json')
+        .then(r => {
+          console.log("success");
+          return r.data;
+        })
+        .catch(e => {
+          console.log("err");
+          return e;
+        });
+    };
+  };
 
 })();
