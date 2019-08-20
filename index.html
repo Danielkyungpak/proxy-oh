@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap.min.js"></script>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="content/style.css">
+    <link rel="stylesheet" type="text/css" href="content/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="content/ui-bootstrap-csp.css">
+</head>
+
+<body ng-app="ProxyOh">
+    <div ng-controller="MainController as mc">
 
 
-<body>
-    <div ng-app="">
+        <ul class="dropdown-menu" role="listbox">
+            <li class="uib-typeahead-match" ng-repeat="match in matches track by $index"
+                ng-class="{active: isActive($index) }" ng-mouseenter="selectActive($index)"
+                ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+                <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
+            </li>
+        </ul>
 
 
 
@@ -23,5 +34,8 @@
 
 </html>
 
-<script src="scripts/ng-app.js"></script>
-<script src="scripts/services.js"></script>
+
+<script src="scripts/angular.js"></script>
+<script src="scripts/angular-ui/ui-bootstrap.js"></script>
+<script src="scripts/ng-app/ng-app.js"></script>
+<script src="scripts/main.controller.js"></script>

@@ -1,18 +1,23 @@
 (function () {
     angular.module("ProxyOh")
-        .controller('MainController', CharacterContMainControllerroller)
+        .controller('MainController', MainController)
     MainController.$inject = ['$scope'];
 
-    function CharacterController($scope, $characterService) {
+    function MainController($scope) {
         var vm = this;
         vm.$scope = $scope;
 
 
-        intialize();
+        initialize();
 
-        function intialize() {
-
+        function initialize() {
+            console.log("hello")
         };
+
+        $scope.matches = [
+            "1", "2", "3"
+        ]
+
     }
 
 })();
