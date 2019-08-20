@@ -35,7 +35,6 @@
             <hr>
             <div masonry masonry-options="{ transitionDuration: '.3s'}" load-images="true">
                 <div class="masonry-brick col-md-2"
-                    ng-class="{'col-md-2' ? mc.rowAmount == 6 : 'col-md-3' ? mc.rowAmount == 4 }"
                     ng-repeat="card in mc.queue">
                     <div class="topright"><button type="button" class="btn btn-danger btn-sm"
                             ng-click="mc.removeCard(card)">x</button></div>

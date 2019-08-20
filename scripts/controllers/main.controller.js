@@ -22,6 +22,7 @@
         function _onGetCardsSuccess(data) {
             vm.cards = data;
             vm.queue = vm.cards.slice(0,100);
+            console.log(vm.queue)
 
             
             console.log(data)
