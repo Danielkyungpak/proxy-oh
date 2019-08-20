@@ -50,7 +50,9 @@
 
                             </div>
 
-                            <div style="border: 1px solid black; width: 300px; height: 400px; " ></div>
+                            <div style="border: 1px solid black; width: 300px; height: 400px; " >
+                            <img ng-src="{{card.card_images[0].image_url}}">
+                            </div>
                         </div>
                     </div>
 
@@ -58,11 +60,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 
 </body>
 
@@ -76,4 +73,4 @@
 <script src="scripts/angular-ui/ui-bootstrap-tpls.min.js"></script>
 <script src="scripts/ng-app/ng-app.js"></script>
 <script src="scripts/controllers/main.controller.js"></script>
-<script src="scripts/ng-app/services/yugioh-db-api-service.js"></script>
+<script src="scripts/ng-app/services/yugioh-card-services.js"></script>

@@ -1,11 +1,12 @@
 (function () {
     angular.module("ProxyOh")
         .controller('MainController', MainController)
-    MainController.$inject = ['$scope'];
+    MainController.$inject = ['$scope', "$yugiohCardService"];
 
-    function MainController($scope) {
+    function MainController($scope, $yugiohCardService) {
         var vm = this;
         vm.$scope = $scope;
+        vm.$yugiohCardService = $yugiohCardService;
         vm.cards = [{ id: 1, name: "daniel" }, { id: 2, name: "jeffrey" }]
         vm.queue = [];
 
@@ -15,9 +16,13 @@
         initialize();
 
         function initialize() {
-            console.log("hello")
+            vm.$yugiohCardService.get().then(_onGetCardsSuccess);
         };
 
+        function _onGetCardsSuccess(data) {
+            vm.cards = data;
+            console.log(data)
+        }
         function _addCardToQueue(item, model, label) {
             if (vm.queue.indexOf(item) == -1) {
                 vm.queue.push(item);

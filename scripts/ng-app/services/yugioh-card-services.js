@@ -3,20 +3,19 @@
 
   angular
     .module('ProxyOh')
-    .factory('ApiService', ApiService);
+    .factory('$yugiohCardService', yugiohCardService);
 
-  ApiService.$inject = [
+  yugiohCardService.$inject = [
     '$http',
   ];
 
-  function ApiService($http) {
+  function yugiohCardService($http) {
 
     return {
       get: get,
     };
 
     function get() {
-      console.log("in get")
       return $http
         .get('YugiohDB.json')
         .then(r => {
