@@ -18,6 +18,10 @@
 
         vm.tableView = false;
 
+        vm.database = firebase.database();
+        vm.writeFirebaseExample = _writeFirebaseExample;
+        vm.readFirebaseExample = _readFirebaseExample;
+
         initialize();
 
         function initialize() {
@@ -53,30 +57,30 @@
         }
 
         function _getDataUri(url) {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
 
                 var image = new Image();
-          
+
                 image.onload = function () {
-                  var canvas = document.createElement('canvas');
-                  canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-                  canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-          
-                  canvas.getContext('2d').drawImage(this, 0, 0);
-                  var dataURI = canvas.toDataURL('image/png');
-                  // on success
-                  resolve(dataURI);
+                    var canvas = document.createElement('canvas');
+                    canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+                    canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+                    canvas.getContext('2d').drawImage(this, 0, 0);
+                    var dataURI = canvas.toDataURL('image/png');
+                    // on success
+                    resolve(dataURI);
                 };
-          
-                image.onerror = function() {
-                  // on failure
-                  reject('Error Loading Image');
+
+                image.onerror = function () {
+                    // on failure
+                    reject('Error Loading Image');
                 }
-          
+
                 image.setAttribute('crossOrigin', 'anonymous')
                 image.src = url;
-              })
-            }
+            })
+        }
 
 
         async function _createPDF() {
@@ -89,7 +93,7 @@
                 return;
             }
             for (var a = 0; a < vm.queue.length; a++) {
-                var promise = _getDataUri(vm.queue[a].card_images[0].image_url).then((imgData) => {  
+                var promise = _getDataUri(vm.queue[a].card_images[0].image_url).then((imgData) => {
                     vm.queue[a].dataUri = imgData;
                 });
                 await promise;
@@ -127,7 +131,7 @@
             var pages = 1;
             pages = Math.ceil(numberOfCards / numberOfCardsPerPage);
 
-            
+
             var cardCount = 0;
             var xBorders = ((docWidth - (cardWidthInPixels * numberOfCardsFitHorizontally)) / 2)
             var yBorders = ((docHeight - (cardHeightInPixels * numberOfCardsFitVertically)) / 2)
@@ -139,7 +143,7 @@
                         for (var j = 0; j < numberOfCardsFitHorizontally; j++) {
                             //Card Array Version
                             //doc.addImage(cardArray[l], 'JPEG', (xBorders + (cardWidthInPixels * j)), (yBorders + (cardHeightInPixels * i)), cardWidthInPixels, cardHeightInPixels, "")
-                           
+
                             doc.addImage(cards[cardCount].dataUri, 'JPEG', (xBorders + (cardWidthInPixels * j)), (yBorders + (cardHeightInPixels * i)), cardWidthInPixels, cardHeightInPixels, "")
                             cardCount++;
                             if (cardCount == numberOfCards) {
@@ -158,8 +162,37 @@
             doc.save('proxy.pdf');
         }
 
+        function _writeFirebaseExample() {
+            var boop = 'boop';
+            //post
+            vm.database.ref('decklist/' + boop).push({
+                card1: 'bleh',
+                card2: 'bleh2',
+                card3: 'bleh3'
+            });
 
+            //update
+            // vm.database.ref('decklist/').update({
+            //     boop: 'boop'
+            // });
+            
+            //delete
+            // vm.database.ref('decklist/' + boop).remove();
+        }
 
+        function _readFirebaseExample() {
+            //read once
+            vm.database.ref('/decklist').once('value').then(function (snapshot) {
+                console.log(snapshot.val());
+            });
+
+            //realtime changes
+            // vm.database.ref('/decklist').on('value', function (response) {
+            //     console.log(response.val());
+            // });
+            //turn off realtime changes callback
+            // vm.database.ref('/decklist').off();
+        }
 
     }
 
