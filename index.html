@@ -93,7 +93,8 @@
                         <button class="btn btn-success btn-sm" ng-click="mc.createPDF()"
                             ng-disabled="mc.queue.length == 0">Export <span class="badge">{{mc.getCounts()}}</span>
                             Cards To Pdf</button>
-
+                        <!-- <button ng-click="mc.writeFirebaseExample()">Firebase Post</button>
+                        <button ng-click="mc.readFirebaseExample()">Firebase Get</button> -->
                     </div>
                     <br /> <br /> <br />
                 </div>
@@ -202,6 +203,22 @@
 
 </body>
 
-
-
-</html>
+<!-- Firebase -->
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.4.0/firebase-app.js"></script>
+<!-- <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-auth.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/3.1.0/firebase-database.js"></script>
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCov_To39VHCrWHgfwvj9JYdYlP879E4Ck",
+        authDomain: "proxy-oh.firebaseapp.com",
+        databaseURL: "https://proxy-oh.firebaseio.com",
+        projectId: "proxy-oh",
+        storageBucket: "",
+        messagingSenderId: "799022905848",
+        appId: "1:799022905848:web:12562d2b4867fe5f"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+</script>

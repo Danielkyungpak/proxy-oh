@@ -37,6 +37,10 @@
 
         vm.tableView = false;
 
+        vm.database = firebase.database();
+        vm.writeFirebaseExample = _writeFirebaseExample;
+        vm.readFirebaseExample = _readFirebaseExample;
+
         initialize();
 
         function initialize() {
@@ -313,6 +317,39 @@
             console.log(searchValue)
             console.log(fuse.search(searchValue))
             return fuse.search(searchValue);
+
+        }
+
+        function _writeFirebaseExample() {
+            var boop = 'boop';
+            //post
+            vm.database.ref('decklist/' + boop).push({
+                card1: 'bleh',
+                card2: 'bleh2',
+                card3: 'bleh3'
+            });
+
+            //update
+            // vm.database.ref('decklist/').update({
+            //     boop: 'boop'
+            // });
+
+            //delete
+            // vm.database.ref('decklist/' + boop).remove();
+        }
+
+        function _readFirebaseExample() {
+            //read once
+            vm.database.ref('/decklist').once('value').then(function (snapshot) {
+                console.log(snapshot.val());
+            });
+
+            //realtime changes
+            // vm.database.ref('/decklist').on('value', function (response) {
+            //     console.log(response.val());
+            // });
+            //turn off realtime changes callback
+            // vm.database.ref('/decklist').off();
         }
 
     }
