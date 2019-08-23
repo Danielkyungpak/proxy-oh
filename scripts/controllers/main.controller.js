@@ -201,7 +201,7 @@
         }
 
         function _parseCardList() {
-            if (importString.length == 0) {
+            if (vm.importString.length == 0) {
                 return;
             }
 
