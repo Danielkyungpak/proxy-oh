@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Danielkyungpak/proxy-oh#readme",
   "dependencies": {
-    "angular-masonry": "^0.17.0"
+    "angular-masonry": "^0.17.0",
+    "fuse.js": "^3.4.5",
+    "lightbox2": "^2.11.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.10.1"

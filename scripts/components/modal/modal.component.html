@@ -1,0 +1,14 @@
+<div class="inmodal">
+    <div class="modal-header">
+        <h3 class="modal-title">{{modal.modalMarkup.header}}</h3>
+    </div>
+    <div class="modal-body" style="text-align:center;">
+        <p>{{modal.modalMarkup.bodyLine1}}</p>
+        <p>{{modal.modalMarkup.bodyLine2}}</p>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" ng-click="modal.cancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" ng-click="modal.confirm()">Confirm</button>
+    </div>
+</div>

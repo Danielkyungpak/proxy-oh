@@ -3,11 +3,11 @@
 
   angular
     .module('ProxyOh')
-    .factory('$cardServices', cardServices);
+    .factory('$cardService', cardService);
 
-  cardServices.$inject = ['$http'];
+    cardService.$inject = ['$http'];
 
-  function cardServices($http) {
+  function cardService($http) {
 
     return {
       get: get,
