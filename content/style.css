@@ -110,3 +110,19 @@ hr .dark-line {
   background-color: rgba(128,128,128,0.5); /* color */
   z-index: 9999;
 }
+.btn-number {
+  background-color: #d3d3d3;
+}
+
+.btn-number:hover {
+  background: darkgray;
+}
+
+.trash-btn {
+  background-color:white
+
+}
+
+.trash-btn:hover i {
+  color: black }
+}

@@ -17,11 +17,12 @@
         vm.reduceQuantity = _reduceQuantity;
         vm.increaseQuantity = _increaseQuantity;
         vm.parseCardList = _parseCardList;
-        vm.resolveCard = _resolveCard;
         vm.getCounts = _getCounts;
         vm.imagePopOut = _imagePopOut;
         vm.deleteAll = _deleteAll;
         vm.filterFuzzy = _filterFuzzy;
+        vm.removeNotFoundCard = _removeNotFoundCard;
+        vm.resolveConflict= _resolveConflict;
 
         vm.fuzzySearchOptions = {
             shouldSort: true,
@@ -47,6 +48,11 @@
             var localQueue = localStorage.getItem("currentQueue");
             if (localQueue) {
                 vm.queue = JSON.parse(localQueue);
+            }
+
+            var importCardList = localStorage.getItem("importCardList");
+            if (importCardList) {
+                vm.importString = JSON.parse(importCardList);
             }
             vm.$cardService.get().then(_onGetCardsSuccess);
         };
@@ -214,6 +220,13 @@
                 var timesIndex = cardArray[i].indexOf("x")
                 var quantity = parseInt(cardArray[i][timesIndex - 1]);
 
+                if (quantity > 3) {
+                    quantity = 3;
+                }
+                else if (quantity < 1) {
+                    quantity = 1;
+                }
+
                 //Removing Count from String and joining string back together
                 var stringArray = "";
                 stringArray = cardArray[i].split(" ");
@@ -251,13 +264,34 @@
                 }
 
             }
-            vm.queue = foundCards;
+
+            for (var o = 0; o < foundCards.length; o++) {
+                for (var p = 0; p < vm.queue.legnth; p++) {
+                    if (foundCards[o].id == vm.queue[p].id) {
+                        vm.queue[p].quantity = foundCards[o].quantity;
+                    }
+                }
+            }
+ 
+            for (var u = 0; u < foundCards.length; u++) {
+                if (!vm.queue.find(x => x.id == foundCards[u].id )){
+                    vm.queue.unshift(foundCards[u]);
+                }
+            }
+
+
+
             vm.notFoundCards = notFound;
             _saveLocalStorage();
         }
 
-        function _resolveCard(result) {
-            console.log(result);
+
+
+        function _resolveConflict(result, card) {
+            result.quantity = card.quantity;
+            vm.queue.unshift(result);
+            _saveLocalStorage();
+            _removeNotFoundCard(card);
         }
 
         function _imagePopOut($event) {
@@ -282,6 +316,7 @@
 
         function _saveLocalStorage() {
             localStorage.setItem("currentQueue", JSON.stringify(vm.queue));
+            localStorage.setItem("importCardList", JSON.stringify(vm.importString));
         }
 
         function _deleteAll() {
@@ -318,6 +353,11 @@
             console.log(fuse.search(searchValue))
             return fuse.search(searchValue);
 
+        }
+
+
+        function _removeNotFoundCard(card) {
+            vm.notFoundCards.splice(vm.notFoundCards.indexOf(card), 1);
         }
 
         function _writeFirebaseExample() {

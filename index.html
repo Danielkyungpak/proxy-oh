@@ -105,12 +105,12 @@
                 <br /><br />
                 <h2 class="text-danger">Resolve Conflicts</h2>
 
-                <div ng-repeat="card in mc.notFoundCards" class="">
+                <div ng-repeat="card in mc.notFoundCards">
                     <strong>{{card.name}}</strong><br />
 
-                    <p ng-repeat="result in card.results"><a href=""
-                            ng-click="mc.resolveCard(result)">{{result.name}}?</a></p>
-                    <p class="text-danger">None of the above</p>
+                    <p ng-repeat="result in card.results | limitTo:8 "><a href=""
+                            ng-click="mc.resolveConflict(result, card)">{{result.name}}?</a></p>
+                    <p ><a href="" ng-click="mc.removeNotFoundCard(card)">None of the above</a></p>
                     <hr class="dark-line" ng-if="!$last" />
                 </div>
                 <br /><br />
@@ -127,9 +127,9 @@
                     </a>
                 </div>
 
-                <div class="input-group">
+                <div class="input-group" style="margin-top: 5px;">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-danger btn-number" data-type="minus"
+                        <button type="button" class="btn btn-number" data-type="minus"
                             ng-click="mc.reduceQuantity(card)">
                             <span>&#8212</span>
                         </button>
@@ -137,7 +137,7 @@
                     <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="3"
                         limit-to-between ng-model="card.quantity">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-success btn-number" data-type="plus"
+                        <button type="button" class="btn btn-number" data-type="plus"
                             ng-click="mc.increaseQuantity(card)">
                             <span>&#65291</span>
                         </button>
@@ -147,7 +147,7 @@
             </div>
             <div class="col-md-12" ng-show="mc.tableView && mc.queue.length > 0">
                 <table class="table table-bordered">
-                    <thead>
+                    <thead style="background:lightgray">
                         <tr>
                             <th style="width:5%"></th>
                             <th style="width:70%">Card Name</th>
@@ -164,11 +164,11 @@
                                     </a>
                                 </div>
                             </td>
-                            <td>{{card.name}}</td>
+                            <td><span style="font-size: 20px;">{{card.name}}</span></td>
                             <td>
                                 <div class="input-group">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-danger btn-number" data-type="minus"
+                                        <button type="button" class="btn btn-number" data-type="minus"
                                             ng-click="mc.reduceQuantity(card)">
                                             <span>&#8212</span>
                                         </button>
@@ -176,7 +176,7 @@
                                     <input type="number" style="text-align:center;" class="form-control input-number"
                                         min="1" max="3" limit-to-between ng-model="card.quantity">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-success btn-number" data-type="plus"
+                                        <button type="button" class="btn btn-number" data-type="plus"
                                             ng-click="mc.increaseQuantity(card)">
                                             <span>&#65291</span>
                                         </button>
@@ -184,7 +184,7 @@
                                 </div>
                             </td>
                             <td>
-                                <button class="btn btn-warning" ng-click="mc.removeCard(card)">Remove</button>
+                                <button class="trash-btn btn" ng-click="mc.removeCard(card)"><i class="fa fa-2x fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
