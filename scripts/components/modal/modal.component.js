@@ -11,7 +11,7 @@
                 dismissFunction: '&',
                 closeFunction: '&'
             },
-            templateUrl: "/scripts/components/modal/modal.component.html"
+            templateUrl: "scripts/components/modal/modal.component.html"
         })
 
 })();
