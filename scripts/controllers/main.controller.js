@@ -51,7 +51,7 @@
             }
 
             var importCardList = localStorage.getItem("importCardList");
-            if (importCardList) {
+            if (importCardList != "undefined") {
                 vm.importString = JSON.parse(importCardList);
             }
             vm.$cardService.get().then(_onGetCardsSuccess);
