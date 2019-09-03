@@ -1,3 +1,3 @@
 (function() {
-	angular.module('ProxyOh', ['ui.bootstrap', 'wu.masonry']);
+	angular.module('ProxyOh', ['ui.bootstrap', 'ui.router']);
 })();

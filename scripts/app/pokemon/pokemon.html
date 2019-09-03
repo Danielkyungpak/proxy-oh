@@ -1,0 +1,148 @@
+<style>
+    #pokemon-typeahead .dropdown-menu {
+        max-height: 250px;
+        overflow-y: auto;
+        width: 100%;
+        display:block;
+    }
+
+    #pokemon-typeahead {
+    position: relative;
+}
+
+
+</style>
+
+<h1>Pokemon</h1>
+<div class="overlay" ng-if="pc.loading">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<div class="col-md-12 col-sm-12 col-xl-12" style="border-bottom: 1px solid lightgray; padding-bottom: 30px">
+    <div class="pull-right">
+        <button class="btn btn-info btn-sm" ng-click="pc.tableView = !pc.tableView"
+            ng-class="{'active': pc.tableView}">Toggle List
+            View</button>
+        <button class="btn btn-danger btn-sm" ng-click="pc.deleteAll()" ng-disabled="pc.queue.length == 0">Remove
+            All Cards</button>
+        <button class="btn btn-success btn-sm" ng-click="pc.createPDF()" ng-disabled="pc.queue.length == 0">Export
+            <span class="badge">{{pc.getCounts()}}</span>
+            Cards To Pdf</button>
+        <!-- <button ng-click="pc.writeFirebaseExample()">Firebase Post</button>
+                                    <button ng-click="pc.readFirebaseExample()">Firebase Get</button> -->
+    </div>
+
+    <h2>Search for a card...</h2>
+    <div id="pokemon-typeahead">
+        <input type="text" ng-model="pc.value"
+            uib-typeahead="card.name for card in pc.filterFuzzy($viewValue) | limitTo: 50" class="form-control"
+            typeahead-on-select="pc.addCardToQueue($item, $model, $label)" typeahead-min-length="2"
+            typeahead-template-url="scripts/app/pokemon/pokemon-typeahead.template.html" />
+
+    </div>
+    <div class="clearfix"></div>
+    <br /> <br /><br /> <br /><br /> <br /><br /><br /><br /><br />
+    <br /> <br /><hr />
+</div>
+
+<div class="col-md-12 col-sm-12 text-center" ng-if="pc.notFoundCards.length > 0">
+    <hr />
+    <br /><br />
+    <h2 class="text-danger">Resolve Conflicts</h2>
+
+    <div ng-repeat="card in pc.notFoundCards">
+        <strong>{{card.name}}</strong><br />
+
+        <p ng-repeat="result in card.results | limitTo:8 "><a href=""
+                ng-click="pc.resolveConflict(result, card)">{{result.name}}?</a></p>
+        <p><a href="" ng-click="pc.removeNotFoundCard(card)">None of the above</a></p>
+        <hr class="dark-line" ng-if="!$last" />
+    </div>
+    <br /><br />
+</div>
+<div class="col-md-2 col-sm-6 card-container" ng-repeat="card in pc.queue" ng-show="!pc.tableView" style="margin-top: 30px;">
+    <div class="">
+        <button type="button" class="x-button" tabindex="-1" ng-click="pc.removeCard(card)">&#10006</button>
+    </div>
+
+    <div class="card-img-container">
+        <a ng-href="{{card.imageUrlHiRes}}" data-lightbox="{{card.name}}card">
+            <img ng-src="{{card.imageUrlHiRes}}" />
+        </a>
+    </div>
+
+    <div class="input-group" style="margin-top: 5px;">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-number" data-type="minus" ng-click="pc.reduceQuantity(card)">
+                <span>&#8212</span>
+            </button>
+        </span>
+        <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="999"
+             ng-model="card.quantity" ng-change="pc.saveLocalStorage()">
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-number" data-type="plus" ng-click="pc.increaseQuantity(card)">
+                <span>&#65291</span>
+            </button>
+        </span>
+    </div>
+    <br /> <br />
+</div>
+<div class="col-md-12 col-sm-12" ng-show="pc.tableView && pc.queue.length > 0">
+    <table class="table table-bordered">
+        <thead style="background:lightgray">
+            <tr>
+                <th style="width:5%"></th>
+                <th style="width:70%">Card Name</th>
+                <th style="width:20%">Quantity</th>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody ng-repeat="card in pc.queue">
+            <tr>
+                <td>
+                    <div class="card-img-container">
+                        <a ng-href="{{card.imageUrlHiRes}}" data-lightbox="{{card.name}}table">
+                            <img ng-src="{{card.imageUrlHiRes}}" />
+                        </a>
+                    </div>
+                </td>
+                <td><span style="font-size: 20px;">{{card.name}}</span></td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-number" data-type="minus"
+                                ng-click="pc.reduceQuantity(card)">
+                                <span>&#8212</span>
+                            </button>
+                        </span>
+                        <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="999"
+                             ng-model="card.quantity">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-number" data-type="plus"
+                                ng-click="pc.increaseQuantity(card)">
+                                <span>&#65291</span>
+                            </button>
+                        </span>
+                    </div>
+                </td>
+                <td>
+                    <button class="trash-btn btn" ng-click="pc.removeCard(card)"><i
+                            class="fa fa-2x fa-trash"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="clearfix"></div>
+<!-- <div class="col-md-12">
+                    <div class="pull-right">
+                        <button class="btn btn-success" ng-click="">Export To Pdf</button>
+                    </div>
+                </div> -->
+<div class="clearfix"></div>
+<br /> <br /><br />
