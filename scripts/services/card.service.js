@@ -5,7 +5,7 @@
     .module('ProxyOh')
     .factory('$cardService', cardService);
 
-    cardService.$inject = ['$http'];
+  cardService.$inject = ['$http'];
 
   function cardService($http) {
 

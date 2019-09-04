@@ -1,9 +1,9 @@
 (function () {
     angular.module("ProxyOh")
-        .controller('PokemonController', PokemonController)
-    PokemonController.$inject = ['$scope', "$cardService", "$modalService", "$utilService"];
+        .controller('TradingCardGameController', TradingCardGameController)
+    TradingCardGameController.$inject = ['$scope', "$cardService", "$modalService", "$utilService"];
 
-    function PokemonController($scope, $cardService, $modalService, $utilService) {
+    function TradingCardGameController($scope, $cardService, $modalService, $utilService) {
         var vm = this;
         vm.$scope = $scope;
         vm.$cardService = $cardService;
@@ -20,10 +20,7 @@
         vm.getCounts = _getCounts;
         vm.deleteAll = _deleteAll;
         vm.filterFuzzy = _filterFuzzy;
-        vm.removeNotFoundCard = _removeNotFoundCard;
-        vm.resolveConflict = _resolveConflict;
         vm.saveLocalStorage = _saveLocalStorage;
-        
 
         vm.fuzzySearchOptions = {
             shouldSort: true,
@@ -38,6 +35,7 @@
         };
 
         vm.tableView = false;
+        vm.addImageLink = _addImageLink;
         vm.saveTestPage = _saveTestPage;
 
         vm.cardSizes = [
@@ -61,22 +59,34 @@
         initialize();
 
         function initialize() {
-            var localQueue = localStorage.getItem("pokemonCurrentQueue");
+            var localQueue = localStorage.getItem("tcgCurrentQueue");
             if (localQueue) {
                 vm.queue = JSON.parse(localQueue);
             }
-            vm.$cardService.getPokemonCards().then(_onGetCardsSuccess);
+
         };
 
-        function _onGetCardsSuccess(data) {
-            vm.cards = data;
+        function _addImageLink(url) {
+            if (url) {
+                vm.$utilService.getDataUriOrCheckImage(url, "url").then(function (url) {
+                    var card = {
+                        imageUrl: url,
+                        quantity: 1
+                    }
+                    vm.queue.unshift(card);
+                    _saveLocalStorage();
+                    $scope.$digest();
+                }, error => {
+                    alert("Not an valid image link.")
+                })
+            }
+            vm.imageLink = "";
         }
 
         function _addCardToQueue(item, model, label) {
             if (vm.queue.indexOf(item) == -1) {
                 vm.queue.unshift(item);
                 item.quantity = 1;
-                item.imageUrl = item.imageUrlHiRes;
             }
             vm.value = "";
             _saveLocalStorage();
@@ -89,8 +99,10 @@
             }
         }
         function _increaseQuantity(card) {
+            // if (card.quantity < 3) {
             card.quantity++;
             _saveLocalStorage();
+            // }
         }
 
         function _removeCard(item) {
@@ -119,15 +131,8 @@
             return count;
         }
 
-        function _resolveConflict(result, card) {
-            result.quantity = card.quantity;
-            vm.queue.unshift(result);
-            _saveLocalStorage();
-            _removeNotFoundCard(card);
-        }
-
         function _saveLocalStorage() {
-            localStorage.setItem("pokemonCurrentQueue", JSON.stringify(vm.queue));
+            localStorage.setItem("tcgCurrentQueue", JSON.stringify(vm.queue));
         }
 
         function _deleteAll() {
@@ -146,13 +151,12 @@
         }
 
         function _filterFuzzy(searchValue) {
-
             var strictFuzzySearchOptions = {
                 shouldSort: true,
                 threshold: 0.3,
                 location: 0,
-                distance: 50,
-                maxPatternLength: 16,
+                distance: 100,
+                maxPatternLength: 32,
                 minMatchCharLength: 1,
                 keys: [
                     "name"
@@ -163,14 +167,10 @@
             return fuse.search(searchValue);
         }
 
-
-        function _removeNotFoundCard(card) {
-            vm.notFoundCards.splice(vm.notFoundCards.indexOf(card), 1);
-        }
-
         function _saveTestPage() {
             vm.$utilService.saveTestPrintPdf(vm.selectedSize);
         }
+
     }
 
 })();

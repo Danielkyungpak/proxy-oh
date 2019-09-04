@@ -15,6 +15,13 @@
             templateUrl: 'scripts/app/pokemon/pokemon.html',
             controller: "PokemonController",
             controllerAs: 'pc'
+        }),
+        $stateProvider.state({
+            name: 'trading-card-game',
+            url: '/trading-card-game',
+            templateUrl: 'scripts/app/trading-card-game/trading-card-game.html',
+            controller: "TradingCardGameController",
+            controllerAs: 'tcgc'
         });
     });
 })();

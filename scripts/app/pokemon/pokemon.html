@@ -3,17 +3,31 @@
         max-height: 250px;
         overflow-y: auto;
         width: 100%;
-        display:block;
+        display: block;
     }
 
     #pokemon-typeahead {
-    position: relative;
-}
-
-
+        position: relative;
+    }
 </style>
 
-<h1>Pokemon</h1>
+<h1>Pokemon
+    <div class="pull-right">
+        <button class="btn btn-info btn-sm" ng-click="pc.saveTestPage()">Save Test Page</button>
+
+        <button class="btn btn-info btn-sm" ng-click="pc.tableView = !pc.tableView"
+            ng-class="{'active': pc.tableView}">List View</button>
+        <button class="btn btn-danger btn-sm" ng-click="pc.deleteAll()" ng-disabled="pc.queue.length == 0">Remove
+            All Cards</button>
+        <button class="btn btn-success btn-sm" ng-click="pc.createPDF(pc.selectedCardSize)"
+            ng-disabled="pc.queue.length == 0">Export
+            <span class="badge">{{pc.getCounts()}}</span>
+            Cards To Pdf</button>
+        <!-- <button ng-click="pc.writeFirebaseExample()">Firebase Post</button>
+                                            <button ng-click="pc.readFirebaseExample()">Firebase Get</button> -->
+    </div>
+
+</h1>
 <div class="overlay" ng-if="pc.loading">
     <div class="lds-ring">
         <div></div>
@@ -23,21 +37,24 @@
     </div>
 </div>
 
-<div class="col-md-12 col-sm-12 col-xl-12" style="border-bottom: 1px solid lightgray; padding-bottom: 30px">
+<div class="col-md-6">
+    <h2 class="pull-left">Search by card name</h2>
+</div>
+<div class="col-md-6">
     <div class="pull-right">
-        <button class="btn btn-info btn-sm" ng-click="pc.tableView = !pc.tableView"
-            ng-class="{'active': pc.tableView}">Toggle List
-            View</button>
-        <button class="btn btn-danger btn-sm" ng-click="pc.deleteAll()" ng-disabled="pc.queue.length == 0">Remove
-            All Cards</button>
-        <button class="btn btn-success btn-sm" ng-click="pc.createPDF()" ng-disabled="pc.queue.length == 0">Export
-            <span class="badge">{{pc.getCounts()}}</span>
-            Cards To Pdf</button>
-        <!-- <button ng-click="pc.writeFirebaseExample()">Firebase Post</button>
-                                    <button ng-click="pc.readFirebaseExample()">Firebase Get</button> -->
+        <span style="font-size: 14px;">Card Sizes in Inches</span>
+        <select class="form-control" ng-options="size.name for size in pc.cardSizes"
+            ng-init="pc.selectedCardSize = pc.cardSizes[0]" ng-model="pc.selectedCardSize">
+        </select>
+        <!-- <div ng-if="pc.selectedCardSize.name == 'Custom'">
+                                <input class="form-control" type="text" ng-model="pc.width"><input class="form-control" type="text"
+                                    ng-model="pc.height">
+                            </div> -->
     </div>
+</div>
 
-    <h2>Search for a card...</h2>
+
+<div class="col-md-12 col-sm-12 col-xl-12" style="border-bottom: 1px solid lightgray; padding-bottom: 30px">
     <div id="pokemon-typeahead">
         <input type="text" ng-model="pc.value"
             uib-typeahead="card.name for card in pc.filterFuzzy($viewValue) | limitTo: 50" class="form-control"
@@ -46,26 +63,11 @@
 
     </div>
     <div class="clearfix"></div>
-    <br /> <br /><br /> <br /><br /> <br /><br /><br /><br /><br />
-    <br /> <br /><hr />
-</div>
-
-<div class="col-md-12 col-sm-12 text-center" ng-if="pc.notFoundCards.length > 0">
+    <br /> <br /><br /> <br /><br /><br /><br /><br /><br /><br />
     <hr />
-    <br /><br />
-    <h2 class="text-danger">Resolve Conflicts</h2>
-
-    <div ng-repeat="card in pc.notFoundCards">
-        <strong>{{card.name}}</strong><br />
-
-        <p ng-repeat="result in card.results | limitTo:8 "><a href=""
-                ng-click="pc.resolveConflict(result, card)">{{result.name}}?</a></p>
-        <p><a href="" ng-click="pc.removeNotFoundCard(card)">None of the above</a></p>
-        <hr class="dark-line" ng-if="!$last" />
-    </div>
-    <br /><br />
 </div>
-<div class="col-md-2 col-sm-6 card-container" ng-repeat="card in pc.queue" ng-show="!pc.tableView" style="margin-top: 30px;">
+<div class="col-md-2 col-sm-6 card-container" ng-repeat="card in pc.queue" ng-show="!pc.tableView"
+    style="margin-top: 30px;">
     <div class="">
         <button type="button" class="x-button" tabindex="-1" ng-click="pc.removeCard(card)">&#10006</button>
     </div>
@@ -83,7 +85,7 @@
             </button>
         </span>
         <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="999"
-             ng-model="card.quantity" ng-change="pc.saveLocalStorage()">
+            ng-model="card.quantity" ng-change="pc.saveLocalStorage()">
         <span class="input-group-btn">
             <button type="button" class="btn btn-number" data-type="plus" ng-click="pc.increaseQuantity(card)">
                 <span>&#65291</span>
@@ -120,8 +122,8 @@
                                 <span>&#8212</span>
                             </button>
                         </span>
-                        <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="999"
-                             ng-model="card.quantity">
+                        <input type="number" style="text-align:center;" class="form-control input-number" min="1"
+                            max="999" ng-model="card.quantity">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-number" data-type="plus"
                                 ng-click="pc.increaseQuantity(card)">
