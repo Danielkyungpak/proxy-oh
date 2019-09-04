@@ -51,7 +51,7 @@
 
 <br><br>
 
-<div class="col-md-2 col-sm-6 card-container" ng-repeat="card in tcgc.queue" ng-show="!tcgc.tableView">
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" ng-repeat="card in tcgc.queue" ng-show="!tcgc.tableView">
     <div class="">
         <button type="button" class="x-button" tabindex="-1" ng-click="tcgc.removeCard(card)">&#10006</button>
     </div>
@@ -77,52 +77,6 @@
         </span>
     </div>
     <br /> <br />
-</div>
-<div class="col-md-12 col-sm-12" ng-show="tcgc.tableView && tcgc.queue.length > 0">
-    <table class="table table-bordered">
-        <thead style="background:lightgray">
-            <tr>
-                <th style="width:5%"></th>
-                <th style="width:70%">Card Name</th>
-                <th style="width:20%">Quantity</th>
-                <td></td>
-            </tr>
-        </thead>
-        <tbody ng-repeat="card in tcgc.queue">
-            <tr>
-                <td>
-                    <div class="card-img-container">
-                        <a ng-href="{{card.imageUrl}}" data-lightbox="{{card.name}}table">
-                            <img ng-src="{{card.imageUrl}}" />
-                        </a>
-                    </div>
-                </td>
-                <td><span style="font-size: 20px;">{{card.name}}</span></td>
-                <td>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-number" data-type="minus"
-                                ng-click="tcgc.reduceQuantity(card)">
-                                <span>&#8212</span>
-                            </button>
-                        </span>
-                        <input type="number" style="text-align:center;" class="form-control input-number" min="1"
-                            max="999" ng-model="card.quantity">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-number" data-type="plus"
-                                ng-click="tcgc.increaseQuantity(card)">
-                                <span>&#65291</span>
-                            </button>
-                        </span>
-                    </div>
-                </td>
-                <td>
-                    <button class="trash-btn btn" ng-click="tcgc.removeCard(card)"><i
-                            class="fa fa-2x fa-trash"></i></button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </div>
 <div class="clearfix"></div>
 <br /> <br /><br />
