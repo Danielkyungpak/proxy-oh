@@ -60,7 +60,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
   font-weight: 100;
   height: 30px;
   width: 30px;
-  z-index: 9999;
+  z-index: 999;
 }
 
 hr .dark-line {
