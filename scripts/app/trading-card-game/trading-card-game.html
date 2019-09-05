@@ -17,35 +17,29 @@
         <div></div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-6">
-        <br>
-        <h2>Paste Image Url</h2>
-    </div>
-    <div class="col-md-6">
-        <div class="pull-right">
-            <span>Card Sizes in Inches</span>
-            <select class="form-control" ng-options="size.name for size in tcgc.cardSizes"
-                ng-init="tcgc.selectedCardSize = tcgc.cardSizes[0]" ng-model="tcgc.selectedCardSize">
-            </select>
-            <!-- <div ng-if="tcgc.selectedCardSize.name == 'Custom'">
+<div class="col-md-6">
+    <h2>Paste Image Url</h2>
+</div>
+<div class="col-md-6">
+    <div class="pull-right">
+        <span>Card Sizes in Inches</span>
+        <select class="form-control" ng-options="size.name for size in tcgc.cardSizes"
+            ng-init="tcgc.selectedCardSize = tcgc.cardSizes[0]" ng-model="tcgc.selectedCardSize">
+        </select>
+        <!-- <div ng-if="tcgc.selectedCardSize.name == 'Custom'">
                 <input class="form-control" type="text" ng-model="tcgc.width"><input class="form-control" type="text"
                     ng-model="tcgc.height">
             </div> -->
-        </div>
     </div>
-
 </div>
-<div class="row">
-    <div class="col-md-12">
-        <div class="input-group">
-            <input type="text" ng-model="tcgc.imageLink" class="form-control"
-                placeholder="Press enter when done or click add card"
-                ng-keyup="$event.keyCode == 13 ? tcgc.addImageLink() : null">
-            <span class="input-group-btn">
-                <button class="btn btn-primary" ng-click="tcgc.addImageLink(tcgc.imageLink)">Add Card</button>
-            </span>
-        </div>
+<div class="col-md-12">
+    <div class="input-group">
+        <input type="text" ng-model="tcgc.imageLink" class="form-control"
+            placeholder="Press enter when done or click add card"
+            ng-keyup="$event.keyCode == 13 ? tcgc.addImageLink() : null">
+        <span class="input-group-btn">
+            <button class="btn btn-primary" ng-click="tcgc.addImageLink(tcgc.imageLink)">Add Card</button>
+        </span>
     </div>
 </div>
 

@@ -58,6 +58,8 @@
                 vm.importString = JSON.parse(importCardList);
             }
             vm.$cardService.getYugiohCards().then(_onGetCardsSuccess);
+            console.log(vm.queue)
+
         };
 
         function _onGetCardsSuccess(data) {
@@ -127,13 +129,6 @@
                 var timesIndex = cardArray[i].indexOf("x")
                 var quantity = parseInt(cardArray[i][timesIndex - 1]);
 
-                if (quantity > 3) {
-                    quantity = 3;
-                }
-                else if (quantity < 1) {
-                    quantity = 1;
-                }
-
                 //Removing Count from String and joining string back together
                 var stringArray = "";
                 stringArray = cardArray[i].split(" ");
@@ -150,6 +145,7 @@
                 var obj = vm.cards.find(x => x.name == cardName);
                 if (obj) {
                     obj.quantity = quantity;
+                    obj.imageUrl = obj.card_images[0].image_url;
                     foundCards.push(obj);
                 } else {
                     if (cardName.trim().length != 0) {
@@ -175,7 +171,7 @@
             for (var o = 0; o < foundCards.length; o++) {
                 for (var p = 0; p < vm.queue.legnth; p++) {
                     if (foundCards[o].id == vm.queue[p].id) {
-                        vm.queue[p].quantity = foundCards[o].quantity;
+                        vm.queue[p].quantity = vm.queue[p].quantity + foundCards[o].quantity;
                     }
                 }
             }
@@ -186,13 +182,9 @@
                 }
             }
 
-
-
             vm.notFoundCards = notFound;
             _saveLocalStorage();
         }
-
-
 
         function _resolveConflict(result, card) {
             result.quantity = card.quantity;
@@ -217,7 +209,7 @@
         function _deleteQueue(contact) {
             return function () {
                 vm.queue = [];
-                localStorage.clear();
+                localStorage.setItem("yugiohCurrentQueue", []);;
             }
         }
 
@@ -245,7 +237,6 @@
         }
 
         function _saveTestPage() {
-            console.log(vm.selectedSize)
             vm.$utilService.saveTestPrintPdf(vm.selectedSize);
         }
 

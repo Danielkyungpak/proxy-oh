@@ -20,8 +20,6 @@
         vm.getCounts = _getCounts;
         vm.deleteAll = _deleteAll;
         vm.filterFuzzy = _filterFuzzy;
-        vm.removeNotFoundCard = _removeNotFoundCard;
-        vm.resolveConflict = _resolveConflict;
         vm.saveLocalStorage = _saveLocalStorage;
         
 
@@ -119,13 +117,6 @@
             return count;
         }
 
-        function _resolveConflict(result, card) {
-            result.quantity = card.quantity;
-            vm.queue.unshift(result);
-            _saveLocalStorage();
-            _removeNotFoundCard(card);
-        }
-
         function _saveLocalStorage() {
             localStorage.setItem("pokemonCurrentQueue", JSON.stringify(vm.queue));
         }
@@ -141,7 +132,7 @@
         function _deleteQueue(contact) {
             return function () {
                 vm.queue = [];
-                localStorage.clear();
+                localStorage.setItem("pokemonCurrentQueue", []);;
             }
         }
 
@@ -161,11 +152,6 @@
 
             var fuse = new Fuse(vm.cards, strictFuzzySearchOptions);
             return fuse.search(searchValue);
-        }
-
-
-        function _removeNotFoundCard(card) {
-            vm.notFoundCards.splice(vm.notFoundCards.indexOf(card), 1);
         }
 
         function _saveTestPage() {

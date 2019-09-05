@@ -99,10 +99,8 @@
             }
         }
         function _increaseQuantity(card) {
-            // if (card.quantity < 3) {
             card.quantity++;
             _saveLocalStorage();
-            // }
         }
 
         function _removeCard(item) {
@@ -146,7 +144,7 @@
         function _deleteQueue(contact) {
             return function () {
                 vm.queue = [];
-                localStorage.clear();
+                localStorage.setItem("tcgCurrentQueue", []);;
             }
         }
 
