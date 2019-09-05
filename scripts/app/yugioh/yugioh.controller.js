@@ -58,7 +58,6 @@
                 vm.importString = JSON.parse(importCardList);
             }
             vm.$cardService.getYugiohCards().then(_onGetCardsSuccess);
-            console.log(vm.queue)
 
         };
 

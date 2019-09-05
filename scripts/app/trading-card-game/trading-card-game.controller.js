@@ -63,13 +63,13 @@
             if (localQueue) {
                 vm.queue = JSON.parse(localQueue);
             }
-
         };
 
         function _addImageLink(url) {
             if (url) {
                 vm.$utilService.getDataUriOrCheckImage(url, "url").then(function (url) {
                     var card = {
+                        dateAdded: new Date().valueOf(),
                         imageUrl: url,
                         quantity: 1
                     }
