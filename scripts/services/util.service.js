@@ -42,6 +42,7 @@
         function getDataUriOrCheckImage(url, type) {
             return new Promise(function (resolve, reject) {
                 var image = new Image();
+                image.crossOrigin = "anonymous";
                 image.onload = function () {
                     var canvas = document.createElement('canvas');
                     canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
