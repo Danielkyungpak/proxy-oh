@@ -66,20 +66,22 @@
         };
 
         function _addImageLink(url) {
-            if (url) {
-                vm.$utilService.getDataUriOrCheckImage(url, "url").then(function (url) {
+            var imageArray = vm.importString.split("\n")
+            
+            for (var i = 0; i < imageArray.length; i++) {
+                vm.$utilService.getDataUriOrCheckImage(imageArray[i].trim(), "url").then(function (url) {
                     var card = {
                         dateAdded: new Date().valueOf(),
-                        imageUrl: url,
+                        imageUrl: imageArray[i].trim(),
                         quantity: 1
                     }
                     vm.queue.unshift(card);
-                    _saveLocalStorage();
-                    $scope.$digest();
+                    
                 }, error => {
-                    alert("Not an valid image link.")
                 })
             }
+            _saveLocalStorage();
+            $scope.$digest();
             vm.imageLink = "";
         }
 
