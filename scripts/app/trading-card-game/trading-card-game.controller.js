@@ -72,7 +72,7 @@
                 vm.$utilService.getDataUriOrCheckImage(imageArray[i].trim(), "url").then(function (url) {
                     var card = {
                         dateAdded: new Date().valueOf(),
-                        imageUrl: imageArray[i].trim(),
+                        imageUrl: url,
                         quantity: 1
                     }
                     vm.queue.unshift(card);
@@ -81,7 +81,6 @@
                 })
             }
             _saveLocalStorage();
-            $scope.$digest();
             vm.imageLink = "";
         }
 
