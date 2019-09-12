@@ -65,8 +65,8 @@
             }
         };
 
-        function _addImageLink(url) {
-            var imageArray = vm.importString.split("\n")
+        function _addImageLink() {
+            var imageArray = vm.imageLink.split("\n")
             
             for (var i = 0; i < imageArray.length; i++) {
                 vm.$utilService.getDataUriOrCheckImage(imageArray[i].trim(), "url").then(function (url) {
