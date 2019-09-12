@@ -76,7 +76,7 @@
                         quantity: 1
                     }
                     vm.queue.unshift(card);
-                    
+                    $scope.$digest();
                 }, error => {
                 })
             }
