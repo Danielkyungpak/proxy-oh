@@ -23,5 +23,13 @@
             controller: "TradingCardGameController",
             controllerAs: 'tcgc'
         });
+        $stateProvider.state({
+            name: 'weiss-schwarz',
+            url: '/weiss-schwarz',
+            templateUrl: 'scripts/app/weiss-schwarz/weiss-schwarz.html',
+            controller: "WeissSchwarzController",
+            controllerAs: 'wsc'
+        });
+
     });
 })();

@@ -1,0 +1,75 @@
+use Image Downloader Extension
+dir /B > filelist.txt to get string name
+
+var filelist = `BNJ_SX01_001.jpg
+BNJ_SX01_001S.jpg
+BNJ_SX01_002.jpg
+BNJ_SX01_002SP.jpg
+BNJ_SX01_003.jpg
+BNJ_SX01_004.jpg
+BNJ_SX01_005.jpg
+BNJ_SX01_006.jpg
+BNJ_SX01_007.jpg
+BNJ_SX01_008.jpg
+BNJ_SX01_009.jpg
+BNJ_SX01_010.jpg
+BNJ_SX01_010S.jpg
+BNJ_SX01_011.jpg
+BNJ_SX01_011S.jpg
+BNJ_SX01_012.jpg
+BNJ_SX01_013.jpg
+BNJ_SX01_032R.jpg
+BNJ_SX01_033R.jpg
+BNJ_SX01_036.jpg
+BNJ_SX01_036SP.jpg
+BNJ_SX01_037.jpg
+BNJ_SX01_037S.jpg
+BNJ_SX01_038.jpg
+BNJ_SX01_038S.jpg
+BNJ_SX01_039.jpg
+BNJ_SX01_040.jpg
+BNJ_SX01_041.jpg
+BNJ_SX01_042.jpg
+BNJ_SX01_042S.jpg
+BNJ_SX01_043.jpg
+BNJ_SX01_044.jpg
+BNJ_SX01_044S.jpg
+BNJ_SX01_059R.jpg
+BNJ_SX01_060R.jpg
+BNJ_SX01_063.jpg
+BNJ_SX01_063S.jpg
+BNJ_SX01_064.jpg
+BNJ_SX01_064S.jpg
+BNJ_SX01_065.jpg
+BNJ_SX01_065SP.jpg
+BNJ_SX01_066.jpg
+BNJ_SX01_066SP.jpg
+BNJ_SX01_067.jpg
+BNJ_SX01_068.jpg
+BNJ_SX01_069.jpg
+BNJ_SX01_070.jpg
+BNJ_SX01_071.jpg
+BNJ_SX01_071S.jpg
+BNJ_SX01_072.jpg
+BNJ_SX01_072S.jpg
+BNJ_SX01_073.jpg
+BNJ_SX01_074.jpg
+BNJ_SX01_074S.jpg
+BNJ_SX01_097R.jpg
+BNJ_SX01_098R.jpg
+BNJ_SX01_T02R.jpg
+BNJ_SX01_T09SP.jpg
+BNJ_SX01_T11S.jpg
+BNJ_SX01_T13R.jpg
+BNJ_SX01_T15R.jpg
+BNJ_SX01_T16S.jpg
+BNJ_SX01_T17SP.jpg`;
+
+var cardArray = filelist.split("\n");
+var cards = [{setName: '', cards: []}];
+
+for(var i = 0; i < cardArray.length; i++) {
+	cards[0].cards.push({id: cardArray[i].split(".")[0], imageName: cardArray[i]})
+}
+
+console.log(JSON.stringify(cards[0]))

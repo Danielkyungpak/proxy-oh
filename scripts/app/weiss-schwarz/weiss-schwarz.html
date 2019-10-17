@@ -1,0 +1,70 @@
+<h1>Weiss Schwarz
+    <div class="pull-right">
+        <button class="btn btn-info btn-sm" ng-click="wsc.saveTestPage()">Save Test Page</button>
+        <button class="btn btn-danger btn-sm" ng-click="wsc.deleteAll()" ng-disabled="wsc.queue.length == 0">Remove
+            All Cards</button>
+        <button class="btn btn-success btn-sm" ng-click="wsc.createPDF(wsc.selectedCardSize)"
+            ng-disabled="wsc.queue.length == 0">Export
+            <span class="badge">{{wsc.getCounts()}}</span>
+            Cards To Pdf</button>
+    </div>
+</h1>
+<div class="overlay" ng-if="wsc.loading">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+<div class="col-md-6">
+    <h2>Select Series</h2>
+    <select class="form-control" ng-options="set for set in wsc.cardSets" ng-model="wsc.selectedCardSet"
+        ng-change="wsc.getSetByCard(wsc.selectedCardSet)"></select>
+</div>
+<div class="col-md-6">
+    <div class="pull-right">
+        <span>Card Sizes in Inches</span>
+        <select class="form-control" ng-options="size.name for size in wsc.cardSizes"
+            ng-init="wsc.selectedCardSize = wsc.cardSizes[1]" ng-model="wsc.selectedCardSize">
+        </select>
+        <!-- <div ng-if="wsc.selectedCardSize.name == 'Custom'">
+                <input class="form-control" type="text" ng-model="wsc.width"><input class="form-control" type="text"
+                    ng-model="wsc.height">
+            </div> -->
+    </div>
+</div>
+</div>
+
+
+<div class="clearfix"></div>
+<br><br>
+
+<br /> <br />
+
+<h2 ng-if="wsc.selectedCardSet">Select Cards</h2>
+<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6" ng-repeat="card in wsc.cardsFromSet"
+    ng-show="!wsc.tableView">
+    <div class="card-img-container">
+        <a ng-href="{{card.imageUrl}}" data-lightbox="{{card.id}}card">
+            <img ng-src="{{card.imageUrl}}" />
+        </a>
+    </div>
+
+    <div class="input-group" style="margin-top: 5px;">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-number" data-type="minus" ng-click="wsc.reduceQuantity(card)">
+                    <span>&#8212</span>
+                </button>
+            </span>
+            <input type="number" style="text-align:center;" class="form-control input-number" min="0" max="999"
+                ng-model="card.quantity" ng-init="card.quantity = 0">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-number" data-type="plus" ng-click="wsc.increaseQuantity(card)">
+                    <span>&#65291</span>
+                </button>
+            </span>
+        </div>
+    </div>
+<div class="clearfix"></div>
+<br /> <br /><br />
