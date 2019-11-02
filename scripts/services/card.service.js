@@ -13,7 +13,9 @@
       getYugiohCards: getYugiohCards,
       getPokemonCards: getPokemonCards,
       getWeissCardsBySet: getWeissCardsBySet,
-      getWeissCardSets: getWeissCardSets
+      getWeissCardSets: getWeissCardSets,
+      getMagicCards: getMagicCards
+
     };
 
     function getYugiohCards() {
@@ -46,6 +48,15 @@
           return s.set;
         })
       })
+    }
+
+    function getMagicCards() {
+      return $http.get('MagicTheGathering.json').then(r => {
+        return r.data;
+      })
+        .catch(e => {
+          return e;
+        });
     }
   };
 

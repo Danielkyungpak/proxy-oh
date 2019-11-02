@@ -1,0 +1,147 @@
+<h1>Magic The Gathering
+    <div class="pull-right">
+        <button class="btn btn-info btn-sm" ng-click="mtgc.saveTestPage()">Save Test Page</button>
+        <button class="btn btn-info btn-sm" ng-click="mtgc.tableView = !mtgc.tableView"
+            ng-class="{'active': mtgc.tableView}">List View</button>
+        <button class="btn btn-danger btn-sm" ng-click="mtgc.deleteAll()" ng-disabled="mtgc.queue.length == 0">Remove
+            All Cards</button>
+        <button class="btn btn-success btn-sm" ng-click="mtgc.createPDF(mtgc.selectedSize)"
+            ng-disabled="mtgc.queue.length == 0">Export
+            <span class="badge">{{mtgc.getCounts()}}</span>
+            Cards To Pdf</button>
+        <!-- <button ng-click="mtgc.writeFirebaseExample()">Firebase Post</button>
+                                <button ng-click="mtgc.readFirebaseExample()">Firebase Get</button> -->
+    </div>
+
+
+</h1>
+<div class="overlay" ng-if="mtgc.loading">
+    <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-xl-6 col-sm-6 col-xs-12">
+        <h2>Import Card List</h2>
+        <textarea class="form-control" rows="10" ng-model="mtgc.importString"
+            placeholder="3x Black Lotus&#013; &#010;3x Mox Emerald&#013; &#010;3x Volcanic Island"></textarea>
+        <div class="clearfix"></div>
+        <br />
+        <div class="pull-right">
+            <button class="btn btn-info btn-sm" ng-click="mtgc.parseCardList()">Parse Card List</button>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-sm-6 col-xl-6 col-xs-12">
+        <h2>Search by card name</h2>
+        <input type="text" ng-model="mtgc.value"
+            uib-typeahead="card.name for card in mtgc.filterFuzzy($viewValue) | limitTo:8" class="form-control"
+            typeahead-on-select="mtgc.addCardToQueue($item, $model, $label)" />
+        <div class="clearfix"></div>
+    </div>
+</div>
+<br><br>
+<div class="row">
+    <div class="col-md-12 col-sm-12 text-center" ng-if="mtgc.notFoundCards.length > 0">
+        <hr />
+        <br /><br />
+        <h2 class="text-danger">Resolve Conflicts</h2>
+
+        <div ng-repeat="card in mtgc.notFoundCards">
+            <strong>{{card.name}}</strong><br />
+
+            <p ng-repeat="result in card.results | limitTo:8 "><a href=""
+                    ng-click="mtgc.resolveConflict(result, card)">{{result.name}}?</a></p>
+            <p><a href="" ng-click="mtgc.removeNotFoundCard(card)">None of the above</a></p>
+            <hr class="dark-line" ng-if="!$last" />
+        </div>
+        <br /><br />
+
+    </div>
+    <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 card-container" ng-repeat="card in mtgc.queue"
+        ng-show="!mtgc.tableView">
+        <div class="">
+            <button type="button" class="x-button" tabindex="-1" ng-click="mtgc.removeCard(card)">&#10006</button>
+        </div>
+
+        <div class="card-img-container">
+            <a ng-href="{{card.imageUrl}}" data-lightbox="{{card.name}}card">
+                <img ng-src="{{card.imageUrl}}" />
+            </a>
+        </div>
+
+        <div class="input-group" style="margin-top: 5px;">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-number" data-type="minus" ng-click="mtgc.reduceQuantity(card)">
+                    <span>&#8212</span>
+                </button>
+            </span>
+            <input type="number" style="text-align:center;" class="form-control input-number" min="1" max="999"
+                ng-model="card.quantity">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-number" data-type="plus" ng-click="mtgc.increaseQuantity(card)">
+                    <span>&#65291</span>
+                </button>
+            </span>
+        </div>
+        <br /> <br />
+    </div>
+    <div class="col-md-12 col-sm-12" ng-show="mtgc.tableView && mtgc.queue.length > 0">
+        <table class="table table-bordered">
+            <thead style="background:lightgray">
+                <tr>
+                    <th style="width:5%"></th>
+                    <th style="width:70%">Card Name</th>
+                    <th style="width:20%">Quantity</th>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody ng-repeat="card in mtgc.queue">
+                <tr>
+                    <td>
+                        <div class="card-img-container">
+                            <a ng-href="{{card.imageUrl}}" data-lightbox="{{card.name}}table">
+                                <img ng-src="{{card.imageUrl}}" />
+                            </a>
+                        </div>
+                    </td>
+                    <td><span style="font-size: 20px;">{{card.name}}</span></td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-number" data-type="minus"
+                                    ng-click="mtgc.reduceQuantity(card)">
+                                    <span>&#8212</span>
+                                </button>
+                            </span>
+                            <input type="number" style="text-align:center;" class="form-control input-number" min="1"
+                                max="999" ng-model="card.quantity">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-number" data-type="plus"
+                                    ng-click="mtgc.increaseQuantity(card)">
+                                    <span>&#65291</span>
+                                </button>
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <button class="trash-btn btn" ng-click="mtgc.removeCard(card)"><i
+                                class="fa fa-2x fa-trash"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="clearfix"></div>
+<!-- <div class="col-md-12">
+                <div class="pull-right">
+                    <button class="btn btn-success" ng-click="">Export To Pdf</button>
+                </div>
+            </div> -->
+<div class="clearfix"></div>
+<br /> <br /><br />

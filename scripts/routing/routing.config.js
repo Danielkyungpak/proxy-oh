@@ -30,6 +30,14 @@
             controller: "WeissSchwarzController",
             controllerAs: 'wsc'
         });
+        $stateProvider.state({
+            name: 'magic-the-gathering',
+            url: '/magic-the-gathering',
+            templateUrl: 'scripts/app/magic-the-gathering/magic-the-gathering.html',
+            controller: "MagicTheGatheringController",
+            controllerAs: 'mtgc'
+        });
+
 
     });
 })();

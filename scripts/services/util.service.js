@@ -49,6 +49,7 @@
 
                     canvas.getContext('2d').drawImage(this, 0, 0);
                     var dataURI = canvas.toDataURL('image/png');
+                    console.log(dataURI)
                     // on success
                     if (type == "url") {
                         resolve(url);
@@ -63,7 +64,7 @@
                     reject('Error Loading Image');
                 }
 
-                image.setAttribute('crossOrigin', 'anonymous')
+                image.crossOrigin = "Anonymous"
                 image.src = url;
             })
         }
