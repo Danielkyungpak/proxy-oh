@@ -129,7 +129,7 @@
                     continue;
                 }
                 //Finding Quantity
-                if (cardArray[i][1] != "x" || cardArray[i][2] != "x") {
+                if (cardArray[i][1] != "x" && cardArray[i][2] != "x") {
                     var spaceIndex = cardArray[i].indexOf(" ")
                     quantity = parseInt(cardArray[i][spaceIndex - 1]);
                 }
