@@ -40,7 +40,7 @@
             name: "Standard  (2.45 x 3.4375in)",
             width: 2.45,
             height: 3.4375
-    };
+        };
 
         vm.tableView = false;
         vm.saveTestPage = _saveTestPage;
@@ -52,7 +52,6 @@
             if (localQueue) {
                 vm.queue = JSON.parse(localQueue);
             }
-            console.log(vm.queue)
 
             var importCardList = localStorage.getItem("magicImportCardList");
             if (importCardList != "undefined") {
@@ -64,17 +63,20 @@
 
         function _onGetCardsSuccess(data) {
             vm.cards = data;
+            // //Filter out list for new db cards
             // var cards = [];
             // for (var i = 0; i < data.length; i++) {
-            //     if (data[i].set_name == "Amonkhet Invocations"){
+            //     if (data[i].set_name == "Amonkhet Invocations") {
             //         continue;
+            //     }
+            //     if (data[i].lang != "en") {
+            //         continue
             //     }
             //     if (cards.findIndex(x => x.name == data[i].name) < 0) {
             //         cards.push(data[i])
             //     }
             // }
-            //  vm.cards = cards;
-
+            // vm.cards = cards;
             // console.log(vm.cards)
         }
 
@@ -96,8 +98,8 @@
         }
         function _increaseQuantity(card) {
             // if (card.quantity < 3) {
-                card.quantity++;
-                _saveLocalStorage();
+            card.quantity++;
+            _saveLocalStorage();
             // }
         }
 
@@ -136,14 +138,19 @@
             var cardArray = vm.importString.split("\n")
             var foundCards = [];
             var notFound = [];
+            var quantity = 1;
             for (var i = 0; i < cardArray.length; i++) {
+                if (!cardArray[i]) {
+                    continue;
+                }
                 //Finding Quantity
-                var timesIndex = cardArray[i].indexOf("x")
-                if (timesIndex == -1) {
-                    var quantity = parseInt(cardArray[i][0]);
+                if (cardArray[i][1] != "x" || cardArray[i][2] != "x") {
+                    var spaceIndex = cardArray[i].indexOf(" ")
+                    quantity = parseInt(cardArray[i][spaceIndex - 1]);
                 }
                 else {
-                    var quantity = parseInt(cardArray[i][timesIndex - 1]);
+                    var timesIndex = cardArray[i].indexOf("x")
+                    quantity = parseInt(cardArray[i][timesIndex - 1]);
                 }
 
                 //Removing Count from String and joining string back together

@@ -83,8 +83,8 @@
         }
         function _increaseQuantity(card) {
             // if (card.quantity < 3) {
-                card.quantity++;
-                _saveLocalStorage();
+            card.quantity++;
+            _saveLocalStorage();
             // }
         }
 
@@ -123,14 +123,19 @@
             var cardArray = vm.importString.split("\n")
             var foundCards = [];
             var notFound = [];
+            var quantity = 1;
             for (var i = 0; i < cardArray.length; i++) {
+                if (!cardArray[i]) {
+                    continue;
+                }
                 //Finding Quantity
-                var timesIndex = cardArray[i].indexOf("x")
-                if (timesIndex == -1) {
-                    var quantity = parseInt(cardArray[i][0]);
+                if (cardArray[i][1] != "x" || cardArray[i][2] != "x") {
+                    var spaceIndex = cardArray[i].indexOf(" ")
+                    quantity = parseInt(cardArray[i][spaceIndex - 1]);
                 }
                 else {
-                    var quantity = parseInt(cardArray[i][timesIndex - 1]);
+                    var timesIndex = cardArray[i].indexOf("x")
+                    quantity = parseInt(cardArray[i][timesIndex - 1]);
                 }
 
                 //Removing Count from String and joining string back together
