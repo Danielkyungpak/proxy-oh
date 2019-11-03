@@ -97,7 +97,7 @@
         async function _createPDF(selectedSize) {
             vm.loading = true;
 
-            await vm.$utilService.convertCardsToPdf(selectedSize, vm.queue);
+            await vm.$utilService.convertCardsToPdf(selectedSize, vm.queue, false);
 
             vm.loading = false;
             $scope.$digest();
@@ -126,7 +126,12 @@
             for (var i = 0; i < cardArray.length; i++) {
                 //Finding Quantity
                 var timesIndex = cardArray[i].indexOf("x")
-                var quantity = parseInt(cardArray[i][timesIndex - 1]);
+                if (timesIndex == -1) {
+                    var quantity = parseInt(cardArray[i][0]);
+                }
+                else {
+                    var quantity = parseInt(cardArray[i][timesIndex - 1]);
+                }
 
                 //Removing Count from String and joining string back together
                 var stringArray = "";
@@ -141,7 +146,7 @@
                 cardName = stringArray.join(" ");
 
                 //Find Card, if found, add to foundCard array, if not add to notFound for other processing
-                var obj = vm.cards.find(x => x.name == cardName);
+                var obj = vm.cards.find(x => x.name.toLowerCase() == cardName.toLowerCase());
                 if (obj) {
                     obj.quantity = quantity;
                     obj.imageUrl = obj.card_images[0].image_url;
@@ -187,6 +192,7 @@
 
         function _resolveConflict(result, card) {
             result.quantity = card.quantity;
+            result.imageUrl = result.card_images[0].image_url
             vm.queue.unshift(result);
             _saveLocalStorage();
             _removeNotFoundCard(card);

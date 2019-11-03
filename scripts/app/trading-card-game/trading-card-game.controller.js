@@ -113,7 +113,7 @@
         async function _createPDF(selectedSize) {
             vm.loading = true;
 
-            await vm.$utilService.convertCardsToPdf(selectedSize, vm.queue);
+            await vm.$utilService.convertCardsToPdf(selectedSize, vm.queue, true);
 
             vm.loading = false;
             $scope.$digest();

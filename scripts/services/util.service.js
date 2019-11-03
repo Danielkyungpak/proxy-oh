@@ -39,38 +39,65 @@
             doc.save("test.pdf")
         };
 
-        function getDataUriOrCheckImage(url, type) {
+        function getDataUriOrCheckImage(url, type, cors) {
             return new Promise(function (resolve, reject) {
-                var image = new Image();
-                image.onload = function () {
-                    var canvas = document.createElement('canvas');
-                    canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-                    canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-
-                    canvas.getContext('2d').drawImage(this, 0, 0);
-                    var dataURI = canvas.toDataURL('image/png');
-                    console.log(dataURI)
-                    // on success
-                    if (type == "url") {
-                        resolve(url);
+                if (!cors) {
+                    var image = new Image();
+                    image.onload = function () {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+                        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+    
+                        canvas.getContext('2d').drawImage(this, 0, 0);
+                        var dataURI = canvas.toDataURL('image/png');
+                        // on success
+                        if (type == "url") {
+                            resolve(url);
+                        }
+                        else {
+                            resolve(dataURI);
+                        }
+                    };
+    
+                    image.onerror = function () {
+                        // on failure
+                        reject('Error Loading Image');
                     }
-                    else {
-                        resolve(dataURI);
-                    }
-                };
-
-                image.onerror = function () {
-                    // on failure
-                    reject('Error Loading Image');
+    
+                    image.crossOrigin = "Anonymous"
+                    image.src = url;
                 }
+                else {
+                    var image = new Image();
+                    image.onload = function () {
+                        var canvas = document.createElement('canvas');
+                        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+                        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+    
+                        canvas.getContext('2d').drawImage(this, 0, 0);
+                        var dataURI = canvas.toDataURL('image/png');
+                        // on success
+                        if (type == "url") {
+                            resolve(url);
+                        }
+                        else {
+                            resolve(dataURI);
+                        }
+                    };
+    
+                    image.onerror = function () {
+                        // on failure
+                        reject('Error Loading Image');
+                    }
+    
+                    image.crossOrigin = "Anonymous"
 
-                image.crossOrigin = "Anonymous"
-                image.src = url;
+                    image.src = "https://cors-anywhere.herokuapp.com/" + url;
+                }
             })
         }
 
-
-        async function convertCardsToPdf(selectedSize, queue) {
+        async function convertCardsToPdf(selectedSize, queue, cors) {
             var cardWidth = selectedSize.width;
             var cardHeight = selectedSize.height;
             var measureFormat = "inch";
@@ -80,7 +107,7 @@
                 return;
             }
             for (var a = 0; a < queue.length; a++) {
-                var promise = getDataUriOrCheckImage(queue[a].imageUrl).then((imgData) => {
+                var promise = getDataUriOrCheckImage(queue[a].imageUrl, null, cors).then((imgData) => {
                     queue[a].dataUri = imgData;
                 });
                 await promise;
