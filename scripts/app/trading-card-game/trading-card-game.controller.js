@@ -69,7 +69,7 @@
             var imageArray = vm.imageLink.split("\n")
             
             for (var i = 0; i < imageArray.length; i++) {
-                vm.$utilService.getDataUriOrCheckImage(imageArray[i].trim(), "url").then(function (url) {
+                vm.$utilService.getDataUriOrCheckImage(imageArray[i].trim(), "url", true).then(function (url) {
                     var card = {
                         dateAdded: new Date().valueOf(),
                         imageUrl: url,
