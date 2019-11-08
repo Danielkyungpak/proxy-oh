@@ -63,12 +63,16 @@
 
         function _onGetCardsSuccess(data) {
             vm.cards = data;
-            // //Filter out list for new db cards
+            //Filter out list for new db cards
             // var cards = [];
             // for (var i = 0; i < data.length; i++) {
             //     if (data[i].set_name == "Amonkhet Invocations") {
             //         continue;
             //     }
+            //                 if (data[i].set_name == "Magic Online Promos") {
+            //         continue;
+            //     }
+
             //     if (data[i].lang != "en") {
             //         continue
             //     }
