@@ -92,7 +92,7 @@
     
                     image.crossOrigin = "Anonymous"
 
-                    image.src = "https://cors-anywhere.herokuapp.com/" + url;
+                    image.src = "https://ancient-cliffs-03978.herokuapp.com/" + url;
                 }
             })
         }
