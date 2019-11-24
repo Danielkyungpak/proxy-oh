@@ -73,3 +73,7 @@ for(var i = 0; i < cardArray.length; i++) {
 }
 
 console.log(JSON.stringify(cards[0]))
+
+
+
+//https://db.ygoprodeck.com/api/v5/cardinfo.php for yugioh cards
