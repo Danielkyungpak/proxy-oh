@@ -63,6 +63,7 @@
 
         function _onGetCardsSuccess(data) {
             vm.cards = data;
+            console.log(vm.cards)
         }
 
         function _addCardToQueue(item, model, label) {
